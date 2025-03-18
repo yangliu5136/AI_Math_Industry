@@ -16,12 +16,15 @@ demand_list = []
 for item in result_json:
     # 提取需要的字段
     extracted_data = {
-        "需求id": item["id"],
-        "截止日期": item["validTime"],
-        "需求类型": item["categoryStr"],
-        "产业链类型": item["industryTypeStr"],
-        "需求名称": item["productName"],
-        "需求描述": item["description"].replace("\n", "")
+        "供给id": item["id"],
+        "供给名称": item["title"],
+        "供给内容": item["content"].replace("\n", ""),
+        "供给类型": item["category"],
+        "联系人": item["contactName"],
+        "联系方式":item["contactPhone"],
+        "地区": item["region"],
+        "状态":item["status"],
+        "日期": item["createTime"]
     }
     demand_list.append(extracted_data)
 
