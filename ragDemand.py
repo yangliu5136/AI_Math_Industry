@@ -21,8 +21,8 @@ app.json.ensure_ascii = False
 
 class Config:
     # model存储路径
-    EMBEDING_MEDEL_PATH = '/root/projects/AI_Match/LLM/BAAI/bge-small-zh-v1.5'
-    DEMAND_FILE_PATH = '/root/projects/AI_Match/demandData/demand.csv'
+    EMBEDING_MEDEL_PATH = '/root/projects/AI_Math_Industry/LLM/BAAI/bge-small-zh-v1.5'
+    DEMAND_FILE_PATH = '/root/projects/AI_Math_Industry/demandData/demand.csv'
 
     # deepseek 配置信息
     API_BASE = "https://api.deepseek.com/v1"  # vLLM的默认端点
