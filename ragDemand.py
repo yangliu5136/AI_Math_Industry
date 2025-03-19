@@ -204,7 +204,7 @@ def init_vector_store(collection_data_name, nodes: list[TextNode]) -> VectorStor
 #     for k,v in response_dict:
 
 
-@app.route('/queryDemand', methods=['POST'])
+@app.route('/AIquery', methods=['POST'])
 def query_demand():
     # 用户输入的问题
     question = request.json.get('question')
