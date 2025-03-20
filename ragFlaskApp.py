@@ -1,5 +1,6 @@
 import ast
 
+import redis
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.huggingface import HuggingFaceLLM
 import csv, json
@@ -19,6 +20,13 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 # 防止传输的数据被转义
 app.json.ensure_ascii = False
+
+# 范例问题
+demo_question_list = ['采购一批水稻，500斤左右，品种不限，品质优良，价格面议。',
+                      '引进一套智慧园区综合管理系统，要求能通过多模块系统分工细化，实现对于园区设备、建筑等的一体化监控、控制服务，即时化、快速化响应，提升园区的信息化管理水平。']
+# 问题分类
+question_type = ['supply', 'wuliu', 'jiagong', 'jinrong', 'jishu']
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 
 class Config:
@@ -205,9 +213,9 @@ def get_demos():
     获取匹配页的样例
     :return:
     '''
-    result = [{'dictLabel': '范例一', 'content': '采购一批水稻，500斤左右，品种不限，品质优良，价格面议。'},
+    result = [{'dictLabel': '范例一', 'content': demo_question_list[0]},
               {'dictLabel': '范例二',
-               'content': '引进一套智慧园区综合管理系统，要求能通过多模块系统分工细化，实现对于园区设备、建筑等的一体化监控、控制服务，即时化、快速化响应，提升园区的信息化管理水平。'}
+               'content': demo_question_list[1]}
               ]
     response = {"success": True,
                 "message": "success",
@@ -257,6 +265,18 @@ def query_demand():
         result_dict = {"success": True, "message": "传入类型不正确", "code": 201}
         return json.dumps(result_dict)
 
+    # 先查询redis中是否有缓存，如果有直接返回，如果没有再调用deepseek
+    if question == demo_question_list[0]:
+        redis_result = redis_client.get(f'question1:{type}')
+        if redis_result:
+            print('从redis中查询到缓存=====', f'question1:{type}', redis_result)
+            return redis_result
+    elif question == demo_question_list[1]:
+        redis_result = redis_client.get(f'question2:{type}')
+        if redis_result:
+            print('从redis中查询到缓存=====', f'question2:{type}', redis_result)
+            return redis_result
+
     # 创建查询引擎
     query_engine = index.as_query_engine(
         similarity_top_k=Config.TOP_K,
@@ -265,8 +285,8 @@ def query_demand():
     )
 
     response = query_engine.query(question)
-    # 处理返回数据
 
+    # 处理返回数据
     records_list = []
     print("\n检索得到的需求数据：")
     for idx, node in enumerate(response.source_nodes, 1):
@@ -292,6 +312,12 @@ def query_demand():
                 "result": records_dict}
 
     content = json.dumps(response, ensure_ascii=False)
+
+    # 如果是范例问题，将结果保存在redis缓存中
+    if question == demo_question_list[0]:
+        redis_client.set(f'question1:{type}', content)
+    elif question == demo_question_list[1]:
+        redis_client.set(f'question2:{type}', content)
 
     return content
 
