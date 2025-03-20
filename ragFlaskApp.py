@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from typing import List, Dict
 import chromadb
-
+from llama_index.core.llms import ChatMessage
 from llama_index.core.schema import TextNode
 from llama_index.core import VectorStoreIndex, StorageContext, Settings
 from llama_index.vector_stores.chroma import ChromaVectorStore
@@ -71,8 +71,8 @@ class Config:
 
 QA_TEMPLATE = (
     "<|im_start|>system\n"
-    "你是一个专业的智能问答助手，请严格根据以下法律条文回答问题：\n"
-    "相关法律条文：\n{context_str}\n<|im_end|>\n"
+    "你是一个专业的智能问答助手，请严格根据以下信息回答问题：\n"
+    "相关信息：\n{context_str}\n<|im_end|>\n"
     "<|im_start|>user\n{query_str}<|im_end|>\n"
     "<|im_start|>assistant\n"
 )
@@ -205,6 +205,33 @@ def init_vector_store(collection_data_name, nodes: list[TextNode]) -> VectorStor
         print("警告：文档存储为空，请检查节点添加逻辑！")
 
     return index
+
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    '''
+    调用deepseek进行问题回复
+    :return:
+    '''
+    # 用户输入的问题
+    question = request.json.get('question')
+    messages = [
+        ChatMessage(
+            role="system", content="你的名字叫小农，是一个智能问答助手，可以回答以下相关的问题：农业政策、农业技术、农产品行情、农作物病虫害。"
+        ),
+        ChatMessage(
+            role="user", content=question
+        ),
+    ]
+    rsp = llm.chat(messages)
+    print('deepseek回复======',  rsp)
+    result = rsp.message.content
+    response = {"success": True,
+                "message": "success",
+                "code": 200,
+                "timestamp": int(time.time()),
+                "result": result}
+    return json.dumps(response)
 
 
 @app.route('/getDemos', methods=['get'])
