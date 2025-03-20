@@ -2,7 +2,7 @@ import json
 
 import requests
 
-url = "http://127.0.0.1:5000/queryDemand"
+url = "http://127.0.0.1:5000/AIquery"
 
 # 查询需求http请求
 def query_demand_request():
