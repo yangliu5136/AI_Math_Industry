@@ -199,9 +199,42 @@ def init_vector_store(collection_data_name, nodes: list[TextNode]) -> VectorStor
     return index
 
 
-# def process_response(response_dict):
-#     result_dict ={}
-#     for k,v in response_dict:
+@app.route('/getDemos', methods=['get'])
+def get_demos():
+    '''
+    获取匹配页的样例
+    :return:
+    '''
+    result = [{'dictLabel': '范例一', 'content': '采购一批水稻，500斤左右，品种不限，品质优良，价格面议。'},
+              {'dictLabel': '范例二',
+               'content': '引进一套智慧园区综合管理系统，要求能通过多模块系统分工细化，实现对于园区设备、建筑等的一体化监控、控制服务，即时化、快速化响应，提升园区的信息化管理水平。'}
+              ]
+    response = {"success": True,
+                "message": "success",
+                "code": 200,
+                "timestamp": int(time.time()),
+                "result": result}
+    return json.dumps(response)
+
+
+@app.route('/typeCategory', methods=['get'])
+def get_type():
+    '''
+    获取匹配页的分类
+    :return:
+    '''
+    result = [{'dictLabel': '供应', 'dictValue': 'supply'},
+              {'dictLabel': '物流', 'dictValue': 'wuliu'},
+              {'dictLabel': '加工', 'dictValue': 'jiagong'},
+              {'dictLabel': '金融', 'dictValue': 'jinrong'},
+              {'dictLabel': '技术', 'dictValue': 'jishu'}]
+
+    response = {"success": True,
+                "message": "success",
+                "code": 200,
+                "timestamp": int(time.time()),
+                "result": result}
+    return json.dumps(response)
 
 
 @app.route('/AIquery', methods=['POST'])
@@ -222,7 +255,7 @@ def query_demand():
         index = jishu_index
     else:
         result_dict = {"success": True, "message": "传入类型不正确", "code": 201}
-        return jsonify(json.dumps(result_dict))
+        return json.dumps(result_dict)
 
     # 创建查询引擎
     query_engine = index.as_query_engine(
