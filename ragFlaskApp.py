@@ -80,7 +80,7 @@ QA_TEMPLATE = (
 response_template = PromptTemplate(QA_TEMPLATE)
 
 
-# 初始化模型
+# ===================初始化模型==================
 def init_models():
     embeding_model = HuggingFaceEmbedding(
         model_name=Config.EMBEDING_MEDEL_PATH
@@ -207,6 +207,26 @@ def init_vector_store(collection_data_name, nodes: list[TextNode]) -> VectorStor
     return index
 
 
+chat_demos = {"technology_question1": "如何解决水稻在种植过程中出苗质量差、出苗率低、成苗不稳定‌的问题。",
+              "policy1": "高标准农田建设补贴农业政策。",
+              "agricultural_market1": "水稻零售价格及销量的影响因素。",
+              "plant_pest1": "水稻黄叶病的常见症状及防治方法。"}
+
+
+@app.route('/chatDemos', methods=['get'])
+def get_chat_demos():
+    result = []
+    for k, v in chat_demos.items():
+        result.append({"dictLabel": k,
+                       "content": v})
+    response = {"success": True,
+                "message": "success",
+                "code": 200,
+                "timestamp": int(time.time()),
+                "result": result}
+    return json.dumps(response)
+
+
 @app.route('/chat', methods=['POST'])
 def chat():
     '''
@@ -215,6 +235,32 @@ def chat():
     '''
     # 用户输入的问题
     question = request.json.get('question')
+    # 如果是范例问题，先查询redis中是否有缓存，如果有，直接返回
+    if question == chat_demos['technology_question1']:
+        redis_result = redis_client.get('technology_question1')
+        if redis_result:
+            cache_result = redis_result.decode('utf-8')
+            print('从redis中查询到缓存=====technology_question1', cache_result)
+            return cache_result
+    elif question == chat_demos['policy1']:
+        redis_result = redis_client.get('policy1')
+        if redis_result:
+            cache_result = redis_result.decode('utf-8')
+            print('从redis中查询到缓存=====policy1', cache_result)
+            return cache_result
+    elif question == chat_demos['agricultural_market1']:
+        redis_result = redis_client.get('agricultural_market1')
+        if redis_result:
+            cache_result = redis_result.decode('utf-8')
+            print('从redis中查询到缓存=====agricultural_market1', cache_result)
+            return cache_result
+    elif question == chat_demos['plant_pest1']:
+        redis_result = redis_client.get('plant_pest1')
+        if redis_result:
+            cache_result = redis_result.decode('utf-8')
+            print('从redis中查询到缓存=====plant_pest1', cache_result)
+            return cache_result
+
     messages = [
         ChatMessage(
             role="system", content="你的名字叫小农，是一个智能问答助手，可以回答以下相关的问题：农业政策、农业技术、农产品行情、农作物病虫害。"
@@ -224,14 +270,25 @@ def chat():
         ),
     ]
     rsp = llm.chat(messages)
-    print('deepseek回复======',  rsp)
+    print('deepseek回复======', rsp)
     result = rsp.message.content
     response = {"success": True,
                 "message": "success",
                 "code": 200,
                 "timestamp": int(time.time()),
                 "result": result}
-    return json.dumps(response)
+    content = json.dumps(response, ensure_ascii=False)
+    print("content ===== ", content)
+    # 如果是范例问题，将结果缓存在redis中
+    if question == chat_demos['technology_question1']:
+        redis_client.set('technology_question1', content)
+    elif question == chat_demos['policy1']:
+        redis_client.set('policy1', content)
+    elif question == chat_demos['agricultural_market1']:
+        redis_client.set('agricultural_market1', content)
+    elif question == chat_demos['plant_pest1']:
+        redis_client.set('plant_pest1', content)
+    return content
 
 
 @app.route('/getDemos', methods=['get'])
@@ -296,13 +353,15 @@ def query_demand():
     if question == demo_question_list[0]:
         redis_result = redis_client.get(f'question1:{type}')
         if redis_result:
-            print('从redis中查询到缓存=====', f'question1:{type}', redis_result)
-            return redis_result
+            cache_result = redis_result.decode('utf-8')
+            print('从redis中查询到缓存=====', f'question1:{type}', cache_result)
+            return cache_result
     elif question == demo_question_list[1]:
         redis_result = redis_client.get(f'question2:{type}')
         if redis_result:
-            print('从redis中查询到缓存=====', f'question2:{type}', redis_result)
-            return redis_result
+            cache_result = redis_result.decode('utf-8')
+            print('从redis中查询到缓存=====', f'question2:{type}', cache_result)
+            return cache_result
 
     # 创建查询引擎
     query_engine = index.as_query_engine(
