@@ -297,8 +297,9 @@ def get_demos():
     获取匹配页的样例
     :return:
     '''
-    result = [{'dictLabel': '范例一', 'content': demo_question_list[0]},
+    result = [{'dictLabel': '范例一', 'title': '采购500斤水稻', 'content': demo_question_list[0]},
               {'dictLabel': '范例二',
+               'title': '采购一套智慧园区综合管理系统',
                'content': demo_question_list[1]}
               ]
     response = {"success": True,
