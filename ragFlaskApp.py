@@ -22,7 +22,7 @@ app = Flask(__name__)
 app.json.ensure_ascii = False
 
 # 范例问题
-demo_question_list = ['采购一批水稻，500斤左右，品种不限，品质优良，价格面议。',
+demo_question_list = ['采购一批水稻种子，500斤左右，品种不限，品质优良，价格面议。',
                       '引进一套智慧园区综合管理系统，要求能通过多模块系统分工细化，实现对于园区设备、建筑等的一体化监控、控制服务，即时化、快速化响应，提升园区的信息化管理水平。']
 # 问题分类
 question_type = ['supply', 'wuliu', 'jiagong', 'jinrong', 'jishu']
@@ -297,7 +297,7 @@ def get_demos():
     获取匹配页的样例
     :return:
     '''
-    result = [{'dictLabel': '范例一', 'title': '采购500斤水稻', 'content': demo_question_list[0]},
+    result = [{'dictLabel': '范例一', 'title': '采购500斤水稻种子', 'content': demo_question_list[0]},
               {'dictLabel': '范例二',
                'title': '采购一套智慧园区综合管理系统',
                'content': demo_question_list[1]}
