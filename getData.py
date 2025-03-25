@@ -1,4 +1,4 @@
-import requests,json
+import requests
 
 url = "https://hd.hbatg.com/api/buyer/buyer/portal/supplyDemand?type=SUPPLY&pageSize=100"
 
