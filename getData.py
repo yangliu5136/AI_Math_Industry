@@ -1,6 +1,6 @@
 import requests,json
 
-url = "https://hd.hbatg.com/api/buyer/buyer/portal/supplyDemand?type=SUPPLY"
+url = "https://hd.hbatg.com/api/buyer/buyer/portal/supplyDemand?type=SUPPLY&pageSize=100"
 
 payload={}
 headers = {}

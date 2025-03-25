@@ -32,7 +32,7 @@ redis_client = redis.Redis(host='localhost', port=6379, db=0)
 class Config:
     # model存储路径
     EMBEDING_MEDEL_PATH = './LLM/BAAI/bge-small-zh-v1.5'
-    SUPPLY_FILE_PATH = './demandData/supply_data.csv'
+    SUPPLY_FILE_PATH = 'demandData/supply_data.csv'
     WULIU_FILE_PATH = './demandData/wuliu_data.csv'
     JIAGONG_FILE_PATH = './demandData/jiagong_data.csv'
     JINRONG_FILE_PATH = './demandData/jinrong_data.csv'
@@ -384,12 +384,12 @@ def query_demand():
         response_dict = {}
         response_dict['id'] = meta['id']
         response_dict['title'] = demand_info_list[0]
-        response_dict['content'] = demand_info_list[1]
-        response_dict['category'] = demand_info_list[2]
-        response_dict['contactName'] = demand_info_list[3]
-        response_dict['contactPhone'] = demand_info_list[4]
-        response_dict['region'] = demand_info_list[5]
-        response_dict['createTime'] = demand_info_list[6]
+        response_dict['description'] = demand_info_list[1]
+        response_dict['productName'] = demand_info_list[2]
+        response_dict['productCount'] = demand_info_list[3]
+        response_dict['contactName'] = demand_info_list[4]
+        response_dict['deliveryPlace'] = demand_info_list[5]
+        response_dict['companyName'] = demand_info_list[6]
         records_list.append(response_dict)
     records_dict = {"records": records_list}
     response = {"success": True,
