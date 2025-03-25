@@ -17,7 +17,9 @@ from llama_index.llms.openai_like import OpenAILike
 
 from flask import Flask, request, jsonify
 
+
 app = Flask(__name__)
+app.config['JSONIFY_TIMEOUT'] = 30  # 设置JSON响应超时为30秒
 # 防止传输的数据被转义
 app.json.ensure_ascii = False
 
