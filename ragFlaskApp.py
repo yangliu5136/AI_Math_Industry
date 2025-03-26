@@ -4,7 +4,7 @@ import redis
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.huggingface import HuggingFaceLLM
 import csv, json
-import time,random
+import time, random, logging
 from pathlib import Path
 from typing import List, Dict
 import chromadb
@@ -21,6 +21,26 @@ app = Flask(__name__)
 app.config['JSONIFY_TIMEOUT'] = 60  # 设置JSON响应超时为30秒
 # 防止传输的数据被转义
 app.json.ensure_ascii = False
+
+# 配置日志
+logging.basicConfig(
+    filename='api.log',  # 日志文件名
+    level=logging.INFO,  # 日志级别
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+@app.before_request
+def log_request_info():
+    """记录请求信息"""
+    logging.info(f"Request: {request.method} {request.url}")
+    logging.info(f"Headers: {dict(request.headers)}")
+    if request.method in ['POST', 'PUT']:
+        logging.info(f"Body: {request.get_json()}")
+
+@app.after_request
+def log_response_info(response):
+    """记录响应信息"""
+    logging.info(f"Response: {response.status} - {response.get_json()}")
+    return response
 
 # 范例问题
 demo_question_list = ['采购一批水稻种子，500斤左右，品种不限，品质优良，价格面议。',
