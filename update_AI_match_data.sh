@@ -50,12 +50,12 @@ if [ -f "$AI_MATCH_REDIS" ]; then
     echo "删除redis缓存成功"
 fi
 # 重新拉取数据
-if [ -f "getData.py" ]; then
-    python "getData.py"
-    echo "获取接口数据成功"
-fi
-# 重新生成csv数据
-if [ -f "processData.py" ]; then
-    python "processData.py"
-    echo "重新生成csv数据成功"
-fi
+#if [ -f "getData.py" ]; then
+#    python "getData.py"
+#    echo "获取接口数据成功"
+#fi
+## 重新生成csv数据
+#if [ -f "processData.py" ]; then
+#    python "processData.py"
+#    echo "重新生成csv数据成功"
+#fi
