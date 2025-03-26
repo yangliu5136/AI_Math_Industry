@@ -392,6 +392,7 @@ def query_demand():
         response_dict['contactName'] = demand_info_list[4]
         response_dict['deliveryPlace'] = demand_info_list[5]
         response_dict['companyName'] = demand_info_list[6]
+        response_dict['photo'] = demand_info_list[7]
         records_list.append(response_dict)
     records_dict = {"records": records_list}
     response = {"success": True,
