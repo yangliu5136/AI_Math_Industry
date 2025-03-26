@@ -4,7 +4,7 @@ import redis
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.huggingface import HuggingFaceLLM
 import csv, json
-import time
+import time,random
 from pathlib import Path
 from typing import List, Dict
 import chromadb
@@ -17,7 +17,6 @@ from llama_index.llms.openai_like import OpenAILike
 
 from flask import Flask, request, jsonify
 
-
 app = Flask(__name__)
 app.config['JSONIFY_TIMEOUT'] = 60  # 设置JSON响应超时为30秒
 # 防止传输的数据被转义
@@ -29,6 +28,22 @@ demo_question_list = ['采购一批水稻种子，500斤左右，品种不限，
 # 问题分类
 question_type = ['supply', 'wuliu', 'jiagong', 'jinrong', 'jishu']
 redis_client = redis.Redis(host='localhost', port=6379, db=0)
+# 公司图片
+photo_list = ["https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//1f9b2ca5123c448a8497c41c7d1cfdb1.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//c6d3deef8b43489080672125747c4784.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//0f0e9ff32b29495aa32c88d2dce8f2d1.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//02b7c109b05046edb8fe2c71a64858cf.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//252327bdaafc4f29a9baeeb4c9a72be6.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//b8a2bccc8d0e41ed97124d0cc3dfdd39.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//53ff2e9dee53471190086b8f71a7056f.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//e9f1c00a01ea40628450567ae71675cb.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//0a45316fb628419b944bc2528596b861.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//709095243e644978bbe53fc23d8662b4.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//3d07c272d5324355ac05daf4caceb9db.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//56a3bdbe60944e5e9bacde34eb5520ea.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//b8a2bccc8d0e41ed97124d0cc3dfdd39.jpg",
+              "https://nf-file.hbatg.com/nfshop/MEMBER/1784489769980743680//53ff2e9dee53471190086b8f71a7056f.jpg",
+              ]
 
 
 class Config:
@@ -41,9 +56,9 @@ class Config:
     JISHU_FILE_PATH = './demandData/jishu_data.csv'
 
     # deepseek 配置信息
-    # API_BASE = "https://api.deepseek.com/v1"  # vLLM的默认端点
-    # MODEL_NAME = "deepseek-chat"
-    # API_KEY = "sk-c2db500c89eb4c42873d583216dd4592"  # vLLM默认不需要密钥
+    API_BASE = "https://api.deepseek.com/v1"  # vLLM的默认端点
+    MODEL_NAME = "deepseek-chat"
+    API_KEY = "sk-c2db500c89eb4c42873d583216dd4592"  # vLLM默认不需要密钥
 
     # 阿里云
     # API_KEY = "sk-47f9e5d9876f4d6ca71622b35953a753"
@@ -51,9 +66,9 @@ class Config:
     # MODEL_NAME = "deepseek-r1"
 
     # 火山引擎的deepseek
-    API_BASE = "https://ark.cn-beijing.volces.com/api/v3"  # vLLM的默认端点
-    MODEL_NAME = "deepseek-r1-250120"
-    API_KEY = "e6e19c79-3735-4ff1-80c7-8da8c6fe0fd9"  # vLLM默认不需要密钥
+    # API_BASE = "https://ark.cn-beijing.volces.com/api/v3"  # vLLM的默认端点
+    # MODEL_NAME = "deepseek-r1-250120"
+    # API_KEY = "e6e19c79-3735-4ff1-80c7-8da8c6fe0fd9"  # vLLM默认不需要密钥
 
     TIMEOUT = 60  # 请求超时时间
 
@@ -392,7 +407,7 @@ def query_demand():
         response_dict['contactName'] = demand_info_list[4]
         response_dict['deliveryPlace'] = demand_info_list[5]
         response_dict['companyName'] = demand_info_list[6]
-        response_dict['photo'] = demand_info_list[7]
+        response_dict['photo'] = random.choice(photo_list)
         records_list.append(response_dict)
     records_dict = {"records": records_list}
     response = {"success": True,
