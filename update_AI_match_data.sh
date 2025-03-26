@@ -49,6 +49,17 @@ if [ -f "$AI_MATCH_REDIS" ]; then
     python "$AI_MATCH_REDIS"
     echo "删除redis缓存成功"
 fi
+
+# 清空nohup.out 中内容
+# 检查文件是否存在
+if [ -f "nohup.out" ]; then
+    # 清空文件内容
+    > nohup.out
+    echo "已清空 nohup.out 文件的内容"
+else
+    echo "错误：nohup.out 文件不存在"
+    exit 1
+fi
 # 重新拉取数据
 #if [ -f "getData.py" ]; then
 #    python "getData.py"
