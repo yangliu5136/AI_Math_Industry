@@ -1,0 +1,26 @@
+2025-04-03 08:40:21,289 - INFO - Load pretrained SentenceTransformer: ./LLM/BAAI/bge-small-zh-v1.5
+2025-04-03 08:40:21,829 - INFO - 2 prompts are loaded, with the keys: ['query', 'text']
+2025-04-03 08:40:23,235 - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-04-03 08:40:23,979 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.30.77:5000
+2025-04-03 08:40:23,980 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-03 08:41:42,932 - INFO - Request: POST http://127.0.0.1:5000/AIquery
+2025-04-03 08:41:42,935 - INFO - Headers: {'User-Agent': 'Apifox/1.0.0 (https://apifox.com)', 'Content-Type': 'application/json; charset=utf-8', 'Accept': '*/*', 'Host': '127.0.0.1:5000', 'Accept-Encoding': 'gzip, deflate, br', 'Connection': 'keep-alive', 'Content-Length': '49'}
+2025-04-03 08:41:42,940 - INFO - Body: {'question': '采购胡萝卜。', 'type': 'supply'}
+2025-04-03 08:41:45,407 - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-04-03 08:41:45,488 - INFO - Response: 200 OK - None
+2025-04-03 08:41:45,495 - INFO - 127.0.0.1 - - [03/Apr/2025 08:41:45] "POST /AIquery HTTP/1.1" 200 -
+2025-04-03 08:42:08,519 - INFO - Request: POST http://127.0.0.1:5000/AIquery
+2025-04-03 08:42:08,520 - INFO - Headers: {'User-Agent': 'Apifox/1.0.0 (https://apifox.com)', 'Content-Type': 'application/json; charset=utf-8', 'Accept': '*/*', 'Host': '127.0.0.1:5000', 'Accept-Encoding': 'gzip, deflate, br', 'Connection': 'keep-alive', 'Content-Length': '50'}
+2025-04-03 08:42:08,522 - INFO - Body: {'question': '采购胡萝卜。', 'type': 'jinrong'}
+2025-04-03 08:42:10,326 - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-04-03 08:42:10,339 - INFO - Response: 200 OK - None
+2025-04-03 08:42:10,341 - INFO - 127.0.0.1 - - [03/Apr/2025 08:42:10] "POST /AIquery HTTP/1.1" 200 -
+2025-04-03 08:42:35,898 - INFO - Request: POST http://127.0.0.1:5000/chat
+2025-04-03 08:42:35,898 - INFO - Headers: {'User-Agent': 'Apifox/1.0.0 (https://apifox.com)', 'Content-Type': 'application/json; charset=utf-8', 'Accept': '*/*', 'Host': '127.0.0.1:5000', 'Accept-Encoding': 'gzip, deflate, br', 'Connection': 'keep-alive', 'Content-Length': '45'}
+2025-04-03 08:42:35,898 - INFO - Body: {'question': '水稻赤枯病有什么症状'}
+2025-04-03 08:42:41,433 - INFO - HTTP Request: POST https://ark.cn-beijing.volces.com/api/v3/chat/completions "HTTP/1.1 200 OK"
+2025-04-03 08:42:41,445 - INFO - Response: 200 OK - None
+2025-04-03 08:42:41,445 - INFO - 127.0.0.1 - - [03/Apr/2025 08:42:41] "POST /chat HTTP/1.1" 200 -
