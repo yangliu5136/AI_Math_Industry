@@ -76,9 +76,9 @@ class Config:
     JISHU_FILE_PATH = './demandData/jishu_data.csv'
 
     # deepseek 配置信息
-    # API_BASE = "https://api.deepseek.com/v1"  # vLLM的默认端点
-    # MODEL_NAME = "deepseek-chat"
-    # API_KEY = "sk-c2db500c89eb4c42873d583216dd4592"  # vLLM默认不需要密钥
+    API_BASE = "https://api.deepseek.com/v1"  # vLLM的默认端点
+    MODEL_NAME = "deepseek-chat"
+    API_KEY = "sk-c2db500c89eb4c42873d583216dd4592"  # vLLM默认不需要密钥
 
     # 阿里云
     # API_KEY = "sk-47f9e5d9876f4d6ca71622b35953a753"
@@ -91,9 +91,9 @@ class Config:
     # API_KEY = "e6e19c79-3735-4ff1-80c7-8da8c6fe0fd9"  # vLLM默认不需要密钥
 
     # 豆包doubao-lite-32k-240828
-    API_BASE = "https://ark.cn-beijing.volces.com/api/v3"  # vLLM的默认端点
-    MODEL_NAME = "doubao-lite-32k-240828"
-    API_KEY = "bbb79fd0-cd0a-46dc-8c05-c43dc65dddaa"  # vLLM默认不需要密钥
+    # API_BASE = "https://ark.cn-beijing.volces.com/api/v3"  # vLLM的默认端点
+    # MODEL_NAME = "doubao-lite-32k-240828"
+    # API_KEY = "bbb79fd0-cd0a-46dc-8c05-c43dc65dddaa"  # vLLM默认不需要密钥
 
 
     TIMEOUT = 60  # 请求超时时间
