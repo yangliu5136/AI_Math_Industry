@@ -253,7 +253,7 @@ def init_vector_store(collection_data_name, nodes: list[TextNode]) -> VectorStor
 chat_demos = {"technology_question1": "如何解决水稻在种植过程中出苗质量差、出苗率低、成苗不稳定‌的问题。",
               "policy1": "高标准农田建设补贴农业政策。",
               "agricultural_market1": "水稻零售价格及销量的影响因素。",
-              "plant_pest1": "水稻黄叶病的常见症状及防治方法。"}
+              "plant_pest1": "稻飞虱怎么预防"}
 
 
 @app.route('/chatDemos', methods=['get'])
